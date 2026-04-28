@@ -12,6 +12,7 @@ A legal firm's website, offering and highlighting their services and legal educa
 - communicating with staff in booked session and through the website
 - sending formal contact requests to the firm through the website
 - reciveing notifications on sesssions via email
+- dark mode and light mode
 
 ### user stories:
 [WIP]
