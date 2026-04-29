@@ -37,4 +37,4 @@ Manager journey: have admin rights and be able to alter content, delete and add 
 ### Class UML
 ![Classes UML](./assets/Class-uml.jpeg)
 ### project Wireframe
-![wireframe]()
+![wireframe](./assets/Wireframe.png)
