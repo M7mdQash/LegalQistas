@@ -16,7 +16,9 @@ A legal firm's website, offering and highlighting their services and legal educa
 
 ### user stories:
 [user story](./assets/Unit%203&4%20project%20user%20story.pdf)
-Personas: [ Visitors - Customer - law firm lawyers - law firm manager ]
+
+
+### Personas: [ Visitors - Customer - law firm lawyers - law firm manager ]
 
 #### Persona story:
 - Visitors: “I want to find and read the firms blogs and to see the profiles and info if their lawyer to see the firms services and evaluate them myself” 
