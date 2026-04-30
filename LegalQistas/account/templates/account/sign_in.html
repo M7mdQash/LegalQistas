@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 80vh;">
+    <div class="card shadow" style="width: 100%; max-width: 400px;">
+        <div class="card-body p-4">
+            <div class="text-center mb-4">
+                <img src="#" alt="Logo" width="64" height="64"
+                     class="rounded mb-3"
+                     style="object-fit: cover; background: #e9ecef;">
+                <h4 class="card-title mb-0">Sign In</h4>
+            </div>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_username" class="form-label">Email</label>
+                    <input type="email" class="form-control {% if form.errors %}is-invalid{% endif %}"
+                           id="id_username" name="username" required autofocus>
+                </div>
+                <div class="mb-3">
+                    <label for="id_password" class="form-label">Password</label>
+                    <input type="password" class="form-control {% if form.errors %}is-invalid{% endif %}"
+                           id="id_password" name="password" required>
+                    {% if form.errors %}
+                        <div class="invalid-feedback d-block">
+                            Incorrect email or password.
+                        </div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Sign In</button>
+            </form>
+        </div>
+    </div>
+    <p class="text-muted mt-3 small">
+        Don't have an account? <a href="{% url 'account:sign_up' %}">Create one</a>
+    </p>
+</div>
+{% endblock %}
