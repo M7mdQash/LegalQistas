@@ -12,16 +12,3 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'password1', 'password2', 'profile_image']
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.username = self.cleaned_data['email']
-        user.email = self.cleaned_data['email']
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        if commit:
-            user.save()
-            from .models import UserProfile
-            profile_image = self.cleaned_data.get('profile_image')
-            UserProfile.objects.create(user=user, profile_image=profile_image)
-        return user
