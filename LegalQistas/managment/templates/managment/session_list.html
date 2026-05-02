@@ -1,0 +1,131 @@
+{% extends "managment/base_managment.html" %}
+
+{% block title %}Sessions — Management{% endblock %}
+
+{% block managment_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h4 class="mb-0">Sessions</h4>
+
+  <!-- Status filter -->
+  <form method="get" class="d-flex align-items-center gap-2">
+    <label class="small text-muted mb-0">Filter:</label>
+    <select name="status" class="form-select form-select-sm" style="width:auto;" onchange="this.form.submit()">
+      <option value="">All statuses</option>
+      {% for val, label in status_choices %}
+        <option value="{{ val }}" {% if status_filter == val %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Customer</th>
+        <th>Lawyer</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for session in sessions %}
+      <tr>
+        <td class="text-muted small">{{ session.pk }}</td>
+        <td>{{ session.customer.get_full_name|default:session.customer.username }}</td>
+        <td>{{ session.lawyer.get_full_name|default:session.lawyer.username }}</td>
+        <td class="small text-muted">{{ session.time_slot.date }} {{ session.time_slot.start_time }}</td>
+        <td>
+          {% if session.status == 'pending' %}
+            <span class="badge bg-warning text-dark">Pending</span>
+          {% elif session.status == 'confirmed' %}
+            <span class="badge bg-success">Confirmed</span>
+          {% elif session.status == 'rejected' %}
+            <span class="badge bg-danger">Rejected</span>
+          {% elif session.status == 'completed' %}
+            <span class="badge bg-secondary">Completed</span>
+          {% elif session.status == 'rescheduled' %}
+            <span class="badge bg-info text-dark">Rescheduled</span>
+          {% endif %}
+        </td>
+        <td class="text-end">
+          <a href="{% url 'managment:session_detail' session.pk %}" class="btn btn-sm btn-outline-dark">View</a>
+          <button type="button" class="btn btn-sm btn-outline-primary"
+                  data-bs-toggle="modal" data-bs-target="#statusModal-{{ session.pk }}">
+            Status
+          </button>
+          <button type="button" class="btn btn-sm btn-outline-warning"
+                  data-bs-toggle="modal" data-bs-target="#reassignModal-{{ session.pk }}">
+            Reassign
+          </button>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" class="text-center text-muted py-4">No sessions found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Modals -->
+{% for session in sessions %}
+
+<!-- Status Modal -->
+<div class="modal fade" id="statusModal-{{ session.pk }}" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Change Status — Session #{{ session.pk }}</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="post" action="{% url 'managment:update_session_status' session.pk %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <select name="status" class="form-select form-select-sm">
+            {% for val, label in status_choices %}
+              <option value="{{ val }}" {% if val == session.status %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Reassign Modal -->
+<div class="modal fade" id="reassignModal-{{ session.pk }}" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">Reassign — Session #{{ session.pk }}</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="post" action="{% url 'managment:reassign_session' session.pk %}">
+        {% csrf_token %}
+        <div class="modal-body">
+          <label class="form-label small">Assign to lawyer:</label>
+          <select name="lawyer_id" class="form-select form-select-sm">
+            {% for lawyer in lawyers %}
+              <option value="{{ lawyer.pk }}" {% if lawyer == session.lawyer %}selected{% endif %}>
+                {{ lawyer.get_full_name|default:lawyer.username }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-warning btn-sm">Reassign</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+{% endblock %}

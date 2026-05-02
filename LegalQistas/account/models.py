@@ -11,7 +11,7 @@ class UserProfile(models.Model):
 
     @property
     def is_lawyer(self):
-        return self.user.groups.filter(name='lawyer').exists()
+        return LawyerProfile.objects.filter(user=self.user).exists()
 
 
 class LawyerProfile(models.Model):

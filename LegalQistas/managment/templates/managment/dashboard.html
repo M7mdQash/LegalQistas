@@ -1,0 +1,66 @@
+{% extends "managment/base_managment.html" %}
+
+{% block title %}Dashboard — Management{% endblock %}
+
+{% block managment_content %}
+<h4 class="mb-4">Dashboard</h4>
+
+<div class="row g-3 mb-5">
+  <div class="col-sm-6 col-xl-3">
+    <div class="card text-bg-warning h-100">
+      <div class="card-body">
+        <div class="fs-1 fw-bold">{{ pending_sessions }}</div>
+        <div class="text-uppercase small">Pending Sessions</div>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'managment:session_list' %}?status=pending" class="text-dark text-decoration-none small">View →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="card text-bg-danger h-100">
+      <div class="card-body">
+        <div class="fs-1 fw-bold">{{ unread_contacts }}</div>
+        <div class="text-uppercase small">Unread Contacts</div>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'managment:contact_requests' %}" class="text-white text-decoration-none small">View →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="card text-bg-success h-100">
+      <div class="card-body">
+        <div class="fs-1 fw-bold">{{ total_lawyers }}</div>
+        <div class="text-uppercase small">Active Lawyers</div>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'managment:user_list' %}" class="text-white text-decoration-none small">Manage →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="card text-bg-secondary h-100">
+      <div class="card-body">
+        <div class="fs-1 fw-bold">{{ total_customers }}</div>
+        <div class="text-uppercase small">Customers</div>
+      </div>
+      <div class="card-footer">
+        <a href="{% url 'managment:user_list' %}" class="text-white text-decoration-none small">View →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h6 class="text-muted text-uppercase mb-3" style="font-size:.75rem;letter-spacing:.08em;">Quick Actions</h6>
+<div class="d-flex flex-wrap gap-2">
+  <a href="{% url 'managment:session_list' %}" class="btn btn-outline-dark btn-sm">All Sessions</a>
+  <a href="{% url 'managment:user_list' %}" class="btn btn-outline-dark btn-sm">Manage Users</a>
+  <!--  +++++ Waiting for posts integrations  ++++++  -->
+  <a href="#" class="btn btn-outline-dark btn-sm">Blog Posts</a>
+  <a href="{% url 'managment:contact_requests' %}" class="btn btn-outline-dark btn-sm">Contact Requests</a>
+</div>
+{% endblock %}

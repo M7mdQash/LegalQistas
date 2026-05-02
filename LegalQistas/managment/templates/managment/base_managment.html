@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load managment_tags %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+  <div class="row">
+
+    <!-- Sidebar -->
+    <nav class="col-md-2 d-flex flex-column gap-1 pb-4">
+      <h6 class="text-uppercase text-muted px-2 mb-2" style="font-size:.7rem;letter-spacing:.08em;">Management</h6>
+
+      <a href="{% url 'managment:dashboard' %}"
+         class="btn btn-sm text-start {% if request.resolver_match.url_name == 'dashboard' %}btn-dark{% else %}btn-outline-secondary{% endif %}">
+        Dashboard
+      </a>
+
+      <a href="{% url 'managment:user_list' %}"
+         class="btn btn-sm text-start {% if request.resolver_match.url_name == 'user_list' %}btn-dark{% else %}btn-outline-secondary{% endif %}">
+        Users &amp; Lawyers
+      </a>
+
+      <a href="{% url 'managment:session_list' %}"
+         class="btn btn-sm text-start {% if 'session' in request.resolver_match.url_name %}btn-dark{% else %}btn-outline-secondary{% endif %}">
+        Sessions
+      </a>
+
+      <a href="#"
+         class="btn btn-sm text-start btn-outline-secondary disabled">
+        Blog Posts
+      </a>
+
+      <a href="{% url 'managment:contact_requests' %}"
+         class="btn btn-sm text-start {% if request.resolver_match.url_name == 'contact_requests' %}btn-dark{% else %}btn-outline-secondary{% endif %}">
+        Contact Requests
+        {% if unread_count %}<span class="badge bg-danger ms-1">{{ unread_count }}</span>{% endif %}
+      </a>
+    </nav>
+
+    <!-- Main content -->
+    <main class="col-md-10">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% block managment_content %}{% endblock %}
+    </main>
+
+  </div>
+</div>
+{% endblock %}
