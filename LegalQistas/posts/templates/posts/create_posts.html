@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body p-5">
+
+                    <div class="text-center mb-5">
+                        <h1 class="fw-bold">إنشاء مقال جديد</h1>
+                        <p class="text-muted">
+                            أضف مقال قانوني جديد ليظهر داخل الموقع
+                        </p>
+                    </div>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Title -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">عنوان المقال</label>
+                            <input type="text" name="title" class="form-control form-control-lg" placeholder="اكتب عنوان المقال">
+                        </div>
+
+                        <!-- Content -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">محتوى المقال</label>
+                            <textarea name="content" rows="8" class="form-control" placeholder="اكتب محتوى المقال هنا"></textarea>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">صورة المقال</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+
+                        <!-- Publish Status -->
+                        <div class="mb-4 form-check">
+                            <input type="checkbox" class="form-check-input" name="is_published" checked>
+                            <label class="form-check-label">نشر المقال مباشرة</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'posts:posts_view' %}" class="btn btn-outline-secondary px-4">
+                                رجوع
+                            </a>
+
+                            <button type="submit" class="btn btn-dark px-5">
+                                نشر المقال
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
