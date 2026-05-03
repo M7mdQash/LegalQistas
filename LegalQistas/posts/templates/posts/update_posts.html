@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container py-5">
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body p-5">
+
+                    <div class="text-center mb-5">
+                        <h1 class="fw-bold">تعديل مقال {{post.title}}</h1>
+                    </div>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <!-- Title -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">عنوان المقال</label>
+                            <input type="text" name="title" value="{{ post.title }}" class="form-control form-control-lg">
+                        </div>
+
+                        <!-- Content -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">محتوى المقال</label>
+                            <textarea name="content" rows="8" class="form-control">{{ post.content }}</textarea>
+                        </div>
+
+                        <!-- Image -->
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">صورة المقال</label>
+                            <input type="file" name="image" class="form-control" value="{{ post.image.url }}">
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{% url 'posts:post_detail_view' post.slug %}" class="btn btn-outline-secondary px-4">
+                                Back
+                            </a>
+
+                            <button type="submit" class="btn btn-primary px-4">
+                                Save Changes
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
