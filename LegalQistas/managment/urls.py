@@ -19,8 +19,8 @@ urlpatterns = [
     path('contacts/<int:pk>/read/',    views.mark_contact_read,      name='mark_contact_read'),
     
     # ========== waiting on integration with posts app
-    # path('posts/',                     views.post_list,              name='post_list'),
-    # path('posts/<int:pk>/publish/',    views.toggle_publish,         name='toggle_publish'),
-    # path('posts/<int:pk>/delete/',     views.delete_post,            name='delete_post'),
+    path('posts/',                     views.post_list,              name='post_list'),
+    path('posts/<int:pk>/publish/',    views.toggle_publish,         name='toggle_publish'),
+    path('posts/<int:pk>/delete/',     views.delete_post,            name='delete_post'),
 
 ]

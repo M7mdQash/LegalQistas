@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Message Sent — Qistas{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center py-5">
+
+                <div class="display-1 mb-4">✅</div>
+                <h2 class="fw-bold mb-3">Message Sent!</h2>
+                <p class="text-muted mb-5">
+                    Thank you for reaching out. Our team will review your message
+                    and get back to you as soon as possible.
+                </p>
+
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a href="{% url 'main:home_view' %}" class="btn btn-dark rounded-pill px-5">
+                        Back to Home
+                    </a>
+                    <a href="{% url 'booking:book_session' %}" class="btn btn-outline-dark rounded-pill px-5">
+                        Book a Session
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -3,7 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
 
-from .models import TimeSlot, BookingSession, Message, ContactRequest
+from account.models import UserProfile, LawyerProfile
+from .models import ContactRequest, TimeSlot, BookingSession, Message
+
 from .emails import notify_new_message
 
 
@@ -42,7 +44,7 @@ def session_list(request):
 def session_detail(request, pk):
     session = get_object_or_404(
         BookingSession.objects.select_related('customer', 'lawyer', 'time_slot')
-                              .prefetch_related('messages__sender'),
+        .prefetch_related('messages__sender'),
         pk=pk,
     )
     if request.user not in (session.customer, session.lawyer):
@@ -68,7 +70,7 @@ def send_message(request, pk):
 
 @login_required
 def lawyer_schedule(request):
-    if not hasattr(request.user, 'lawyer_profile'):
+    if not request.user.groups.filter(name='level_1').exists():
         from django.core.exceptions import PermissionDenied
         raise PermissionDenied
     slots = TimeSlot.objects.filter(lawyer=request.user).order_by('date', 'start_time')
@@ -87,7 +89,6 @@ def lawyer_schedule(request):
 
 
 # ── Contact Form ──────────────────────────────────────────────────────���────
-
 def contact_form(request):
     if request.method == 'POST':
         ContactRequest.objects.create(
@@ -96,8 +97,9 @@ def contact_form(request):
             subject=request.POST.get('subject', ''),
             body=request.POST.get('body', ''),
         )
-        return redirect('booking:contact_success')
+        return redirect('main:home_view')
     return render(request, 'booking/contact_form.html')
+
 
 
 def contact_success(request):

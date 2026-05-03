@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from .forms import SignUpForm
 from .models import UserProfile, GROUP_CLIENT
@@ -45,3 +45,9 @@ def sign_in(request):
             return redirect('/')
         return render(request, 'account/sign_in.html', {'form': {'errors': True}})
     return render(request, 'account/sign_in.html', {'form': {}})
+
+def sign_out(request):
+    logout(request)
+    return redirect('/')
+
+

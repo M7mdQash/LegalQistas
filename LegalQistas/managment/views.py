@@ -4,11 +4,14 @@ from django.contrib import messages
 
 from account.models import GROUP_CLIENT, GROUP_LAWYER, LawyerProfile
 from booking.models import BookingSession, ContactRequest
+# from main.models import ContactRequest
 from .decorators import manager_required
+from posts.models import Post
 
 
 def _unread_count():
-    return ContactRequest.objects.filter(is_read=False).count()
+    pass
+    # return ContactRequest.objects.filter(is_read=False).count()
 
 
 # ── Dashboard ──────────────────────────────────────────────────────────────
@@ -127,43 +130,41 @@ def reassign_session(request, pk):
 
 # ── Blog Posts (depends on Dev A's posts app) ──────────────────────────────
 
-# @manager_required
-# def post_list(request):
-#     from posts.models import BlogPost
-#     posts = BlogPost.objects.select_related('author').order_by('-created_at')
-#     return render(request, 'managment/post_list.html', {
-#         'posts': posts,
-#         'unread_count': _unread_count(),
-#     })
+@manager_required
+def post_list(request):
+    posts = Post.objects.select_related('user').order_by('-created_at')
+    return render(request, 'managment/post_list.html', {
+        'posts': posts,
+        'unread_count': _unread_count(),
+    })
 
 
-# @manager_required
-# def toggle_publish(request, pk):
-#     if request.method != 'POST':
-#         return redirect('managment:post_list')
-#     from posts.models import BlogPost
-#     post = get_object_or_404(BlogPost, pk=pk)
-#     post.is_published = not post.is_published
-#     post.save()
-#     return redirect('managment:post_list')
+@manager_required
+def toggle_publish(request, pk):
+    if request.method != 'POST':
+        return redirect('managment:post_list')
+    post = get_object_or_404(Post, pk=pk)
+    post.is_published = not post.is_published
+    post.save()
+    return redirect('managment:post_list')
 
 
-# @manager_required
-# def delete_post(request, pk):
-#     if request.method != 'POST':
-#         return redirect('managment:post_list')
-#     from posts.models import BlogPost
-#     post = get_object_or_404(BlogPost, pk=pk)
-#     title = post.title
-#     post.delete()
-#     messages.warning(request, f'Post "{title}" has been deleted.')
-#     return redirect('managment:post_list')
+@manager_required
+def delete_post(request, pk):
+    if request.method != 'POST':
+        return redirect('managment:post_list')
+    post = get_object_or_404(Post, pk=pk)
+    title = post.title
+    post.delete()
+    messages.warning(request, f'Post "{title}" has been deleted.')
+    return redirect('managment:post_list')
 
 
 # ── Contact Requests ───────────────────────────────────────────────────────
 
 @manager_required
 def contact_requests(request):
+    
     contacts = ContactRequest.objects.order_by('-submitted_at')
     return render(request, 'managment/contact_requests.html', {
         'contacts': contacts,
@@ -173,6 +174,7 @@ def contact_requests(request):
 
 @manager_required
 def mark_contact_read(request, pk):
+    
     if request.method != 'POST':
         return redirect('managment:contact_requests')
     contact = get_object_or_404(ContactRequest, pk=pk)

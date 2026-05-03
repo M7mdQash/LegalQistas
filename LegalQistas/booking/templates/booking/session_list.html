@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}My Sessions — Qistas{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<section class="py-5 border-bottom bg-light">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
+        <div>
+            <span class="badge bg-dark mb-2 px-3 py-2">Dashboard</span>
+            <h1 class="fw-bold mb-1">My Sessions</h1>
+            <p class="text-muted mb-0">Track and manage your legal consultation sessions.</p>
+        </div>
+        <a href="{% url 'booking:book_session' %}" class="btn btn-dark rounded-pill px-4">
+            + Book New Session
+        </a>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+
+        {% if sessions %}
+        <div class="row g-4">
+            {% for session in sessions %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body">
+
+                        <!-- Status badge -->
+                        <div class="mb-3">
+                            {% if session.status == 'pending' %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% elif session.status == 'confirmed' %}
+                                <span class="badge bg-success">Confirmed</span>
+                            {% elif session.status == 'rejected' %}
+                                <span class="badge bg-danger">Rejected</span>
+                            {% elif session.status == 'completed' %}
+                                <span class="badge bg-secondary">Completed</span>
+                            {% elif session.status == 'rescheduled' %}
+                                <span class="badge bg-info text-dark">Rescheduled</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Participants -->
+                        <h6 class="fw-bold mb-1">
+                            {% if request.user == session.customer %}
+                                {{ session.lawyer.get_full_name }}
+                            {% else %}
+                                {{ session.customer.get_full_name }}
+                            {% endif %}
+                        </h6>
+                        <p class="text-muted small mb-3">
+                            {% if request.user == session.customer %}Lawyer{% else %}Client{% endif %}
+                        </p>
+
+                        <!-- Date/time -->
+                        <div class="d-flex align-items-center gap-2 text-muted small mb-3">
+                            <span>📅</span>
+                            <span>{{ session.time_slot.date }}</span>
+                            <span>·</span>
+                            <span>{{ session.time_slot.start_time|time:"H:i" }} – {{ session.time_slot.end_time|time:"H:i" }}</span>
+                        </div>
+
+                        <!-- Message count -->
+                        <p class="text-muted small mb-0">
+                            💬 {{ session.messages.count }} message{{ session.messages.count|pluralize }}
+                        </p>
+
+                    </div>
+                    <div class="card-footer bg-transparent border-0 pb-4 px-4">
+                        <a href="{% url 'booking:session_detail' session.pk %}"
+                           class="btn btn-outline-dark w-100 rounded-pill btn-sm">
+                            View Session
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% else %}
+        <!-- Empty state -->
+        <div class="text-center py-5">
+            <div class="display-1 mb-4">📋</div>
+            <h4 class="fw-bold mb-2">No sessions yet</h4>
+            <p class="text-muted mb-4">Book a consultation with one of our lawyers to get started.</p>
+            <a href="{% url 'booking:book_session' %}" class="btn btn-dark rounded-pill px-5">
+                Book a Session
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}
