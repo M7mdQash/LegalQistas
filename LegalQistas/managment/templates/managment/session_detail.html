@@ -1,0 +1,103 @@
+{% extends "managment/base_managment.html" %}
+
+{% block title %}Session #{{ session.pk }} — Management{% endblock %}
+
+{% block managment_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h4 class="mb-0">Session #{{ session.pk }}</h4>
+  <a href="{% url 'managment:session_list' %}" class="btn btn-sm btn-outline-secondary">← Back to Sessions</a>
+</div>
+
+<div class="row g-4">
+
+  <!-- Session Info -->
+  <div class="col-md-5">
+    <div class="card h-100">
+      <div class="card-header fw-semibold">Details</div>
+      <div class="card-body">
+        <dl class="row mb-0 small">
+          <dt class="col-5 text-muted">Customer</dt>
+          <dd class="col-7">{{ session.customer.get_full_name|default:session.customer.username }}</dd>
+
+          <dt class="col-5 text-muted">Lawyer</dt>
+          <dd class="col-7">{{ session.lawyer.get_full_name|default:session.lawyer.username }}</dd>
+
+          <dt class="col-5 text-muted">Date</dt>
+          <dd class="col-7">{{ session.time_slot.date }}</dd>
+
+          <dt class="col-5 text-muted">Time</dt>
+          <dd class="col-7">{{ session.time_slot.start_time }} — {{ session.time_slot.end_time }}</dd>
+
+          <dt class="col-5 text-muted">Status</dt>
+          <dd class="col-7">
+            {% if session.status == 'pending' %}<span class="badge bg-warning text-dark">Pending</span>
+            {% elif session.status == 'confirmed' %}<span class="badge bg-success">Confirmed</span>
+            {% elif session.status == 'rejected' %}<span class="badge bg-danger">Rejected</span>
+            {% elif session.status == 'completed' %}<span class="badge bg-secondary">Completed</span>
+            {% elif session.status == 'rescheduled' %}<span class="badge bg-info text-dark">Rescheduled</span>
+            {% endif %}
+          </dd>
+
+          {% if session.notes %}
+          <dt class="col-5 text-muted">Notes</dt>
+          <dd class="col-7">{{ session.notes }}</dd>
+          {% endif %}
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="col-md-3">
+    <div class="card mb-3">
+      <div class="card-header fw-semibold">Change Status</div>
+      <div class="card-body">
+        <form method="post" action="{% url 'managment:update_session_status' session.pk %}">
+          {% csrf_token %}
+          <select name="status" class="form-select form-select-sm mb-2">
+            {% for val, label in status_choices %}
+              <option value="{{ val }}" {% if val == session.status %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary btn-sm w-100">Update</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header fw-semibold">Reassign Lawyer</div>
+      <div class="card-body">
+        <form method="post" action="{% url 'managment:reassign_session' session.pk %}">
+          {% csrf_token %}
+          <select name="lawyer_id" class="form-select form-select-sm mb-2">
+            {% for lawyer in lawyers %}
+              <option value="{{ lawyer.pk }}" {% if lawyer == session.lawyer %}selected{% endif %}>
+                {{ lawyer.get_full_name|default:lawyer.username }}
+              </option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-warning btn-sm w-100">Reassign</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Thread -->
+  <div class="col-md-4">
+    <div class="card h-100">
+      <div class="card-header fw-semibold">Messages <span class="badge bg-secondary">{{ session.messages.count }}</span></div>
+      <div class="card-body overflow-auto" style="max-height:400px;">
+        {% for msg in session.messages.all %}
+        <div class="mb-3">
+          <div class="small text-muted">{{ msg.sender.get_full_name|default:msg.sender.username }} · {{ msg.sent_at|date:"d M, H:i" }}</div>
+          <div class="p-2 rounded bg-light small">{{ msg.body }}</div>
+        </div>
+        {% empty %}
+        <p class="text-muted small">No messages yet.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

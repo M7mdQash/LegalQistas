@@ -1,0 +1,113 @@
+{% extends "managment/base_managment.html" %}
+{% load managment_tags %}
+
+{% block title %}Users &amp; Lawyers — Management{% endblock %}
+
+{% block managment_content %}
+<h4 class="mb-4">Users &amp; Lawyers</h4>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Joined</th>
+        <th class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+      <tr>
+        <td>{{ u.get_full_name|default:u.username }}</td>
+        <td class="text-muted small">{{ u.email }}</td>
+        <td>
+          {% with role=u|user_role %}
+            {% if role == 'Manager' %}
+              <span class="badge bg-dark">Manager</span>
+            {% elif role == 'Lawyer' %}
+              <span class="badge bg-success">Lawyer</span>
+            {% else %}
+              <span class="badge bg-secondary">Customer</span>
+            {% endif %}
+          {% endwith %}
+        </td>
+        <td class="text-muted small">{{ u.date_joined|date:"d M Y" }}</td>
+        <td class="text-end">
+          {% if u|is_manager %}
+            <span class="text-muted small">—</span>
+          {% elif u|is_lawyer %}
+            <button type="button" class="btn btn-sm btn-outline-danger"
+                    data-bs-toggle="modal" data-bs-target="#revokeModal-{{ u.pk }}">
+              Revoke Lawyer
+            </button>
+          {% else %}
+            <button type="button" class="btn btn-sm btn-outline-success"
+                    data-bs-toggle="modal" data-bs-target="#assignModal-{{ u.pk }}">
+              Assign as Lawyer
+            </button>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="text-center text-muted py-4">No users found.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- Modals (rendered outside the table loop) -->
+{% for u in users %}
+
+  {% if u|is_lawyer and not u|is_manager %}
+  <!-- Revoke Modal -->
+  <div class="modal fade" id="revokeModal-{{ u.pk }}" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Revoke Lawyer Role</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body small">
+          Remove lawyer role from <strong>{{ u.get_full_name|default:u.username }}</strong>?
+          Their profile data will be preserved.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <form method="post" action="{% url 'managment:revoke_lawyer' u.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">Revoke</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% elif not u|is_manager %}
+  <!-- Assign Modal -->
+  <div class="modal fade" id="assignModal-{{ u.pk }}" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">Assign as Lawyer</h6>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body small">
+          Assign <strong>{{ u.get_full_name|default:u.username }}</strong> as a lawyer?
+          A lawyer profile will be created for them automatically.
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <form method="post" action="{% url 'managment:assign_lawyer' u.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-sm">Confirm</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends "managment/base_managment.html" %}
+
+{% block title %}Contact Requests — Management{% endblock %}
+
+{% block managment_content %}
+<h4 class="mb-4">
+  Contact Requests
+  {% if unread_count %}<span class="badge bg-danger ms-2" style="font-size:.7rem;">{{ unread_count }} unread</span>{% endif %}
+</h4>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Subject</th>
+        <th>Received</th>
+        <th>Status</th>
+        <th class="text-end">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contact in contacts %}
+      <tr {% if not contact.is_read %}class="fw-semibold"{% endif %}>
+        <td>{{ contact.name }}</td>
+        <td class="small text-muted">{{ contact.email }}</td>
+        <td>{{ contact.subject }}</td>
+        <td class="small text-muted">{{ contact.submitted_at|date:"d M Y, H:i" }}</td>
+        <td>
+          {% if contact.is_read %}
+            <span class="badge bg-secondary">Read</span>
+          {% else %}
+            <span class="badge bg-danger">Unread</span>
+          {% endif %}
+        </td>
+        <td class="text-end">
+          <!-- Expand message -->
+          <button type="button" class="btn btn-sm btn-outline-dark"
+                  data-bs-toggle="modal" data-bs-target="#msgModal-{{ contact.pk }}">
+            View
+          </button>
+
+          {% if not contact.is_read %}
+          <form method="post" action="{% url 'managment:mark_contact_read' contact.pk %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-outline-secondary">Mark Read</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6" class="text-center text-muted py-4">No contact requests.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<!-- View Message Modals -->
+{% for contact in contacts %}
+<div class="modal fade" id="msgModal-{{ contact.pk }}" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">{{ contact.subject }}</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="small text-muted mb-1">From: <strong>{{ contact.name }}</strong> &lt;{{ contact.email }}&gt;</p>
+        <p class="small text-muted mb-3">{{ contact.submitted_at|date:"d M Y, H:i" }}</p>
+        <p>{{ contact.body }}</p>
+      </div>
+      <div class="modal-footer">
+        {% if not contact.is_read %}
+        <form method="post" action="{% url 'managment:mark_contact_read' contact.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-secondary btn-sm">Mark as Read</button>
+        </form>
+        {% endif %}
+        <button class="btn btn-dark btn-sm" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
