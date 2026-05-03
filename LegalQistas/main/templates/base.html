@@ -5,50 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <title>{% block title %}Qistas{% endblock %}</title>
 </head>
-<body class="d-flex flex-column min-vh-100" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+<body {% if "mode" in request.COOKIES and request.COOKIES.mode == "dark" %} class="dark" {% endif %} dir="rtl" class="d-flex flex-column min-vh-100" style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
 
 
     <nav class="container navbar navbar-expand-lg navbar-light bg-light p-2 mt-4 rounded-pill">
-        <a class="navbar-brand p-3" href="/">Qistas</a>
+        <a class="navbar-brand p-3" style="font-size: 1.5rem;" href="/">قِسطَاس</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse d-flex flex-row align-items-center justify-content-center" id="navbarNavDropdown">
             <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'main:home_view' %}">Home</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Services
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'main:home_view' %}">الرئيسية</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Lawyers</a>
+                <a class="nav-link" href="{% url 'main:services_view' %}">خدماتنا</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'posts:posts_view' %}">ِArticles</a>
+                <a class="nav-link" href="{% url 'main:lawyers_view' %}">المحامين</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">About Us</a>
+                <a class="nav-link" href="{% url 'posts:posts_view' %}">المقالات</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Contact Us</a>
+                <a class="nav-link" href="{% url 'main:about_view' %}">من نحن</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'main:contact_view' %}">تواصل معنا</a>
             </li>
             </ul>
             
         </div>
-        <div class="d-flex me-3 ms-3 gap-2">
-            <a href="">
-            <button type="submit" class="btn btn-outline-success rounded-pill" >Book now</button>
+        <div class="d-flex flex-row align-items-center justify-content-center me-3 ms-3 gap-2">
+            <a href="{% url 'main:mode_view' 'toggle' %}?next={{request.path}}" class="theme-toggle-btn">
+                {% if request.COOKIES.mode == "dark" %}
+                    <span class="material-symbols-outlined">light_mode</span>
+                {% else %}
+                    <span class="material-symbols-outlined">dark_mode</span>
+                {% endif %}
             </a>
             <a href="{% url 'account:sign_in' %}">
             <button type="submit" class="btn btn-primary rounded-pill" >Sign In</button>
