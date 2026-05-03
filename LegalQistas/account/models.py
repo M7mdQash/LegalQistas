@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+GROUP_CLIENT = 'level_0'
+GROUP_LAWYER = 'level_1'
+GROUP_MANAGER = 'level_2'
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
@@ -11,7 +15,7 @@ class UserProfile(models.Model):
 
     @property
     def is_lawyer(self):
-        return LawyerProfile.objects.filter(user=self.user).exists()
+        return self.user.groups.filter(name=GROUP_LAWYER).exists()
 
 
 class LawyerProfile(models.Model):

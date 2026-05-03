@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 
-from account.models import LawyerProfile
+from account.models import GROUP_CLIENT, GROUP_LAWYER, LawyerProfile
 from booking.models import BookingSession, ContactRequest
 from .decorators import manager_required
 
@@ -18,8 +18,8 @@ def dashboard(request):
     context = {
         'pending_sessions': BookingSession.objects.filter(status='pending').count(),
         'unread_contacts': _unread_count(),
-        'total_lawyers': User.objects.filter(lawyer_profile__isnull=False).count(),
-        'total_customers': User.objects.filter(lawyer_profile__isnull=True, is_staff=False).count(),
+        'total_lawyers': User.objects.filter(groups__name=GROUP_LAWYER).count(),
+        'total_customers': User.objects.filter(groups__name=GROUP_CLIENT).count(),
     }
     return render(request, 'managment/dashboard.html', context)
 
@@ -41,6 +41,10 @@ def assign_lawyer(request, pk):
         return redirect('managment:user_list')
     user = get_object_or_404(User, pk=pk)
     LawyerProfile.objects.get_or_create(user=user)
+    lawyer_group, _ = Group.objects.get_or_create(name=GROUP_LAWYER)
+    client_group, _ = Group.objects.get_or_create(name=GROUP_CLIENT)
+    user.groups.remove(client_group)
+    user.groups.add(lawyer_group)
     messages.success(request, f'{user.get_full_name() or user.username} has been assigned as a lawyer.')
     return redirect('managment:user_list')
 
@@ -51,6 +55,10 @@ def revoke_lawyer(request, pk):
         return redirect('managment:user_list')
     user = get_object_or_404(User, pk=pk)
     LawyerProfile.objects.filter(user=user).delete()
+    lawyer_group, _ = Group.objects.get_or_create(name=GROUP_LAWYER)
+    client_group, _ = Group.objects.get_or_create(name=GROUP_CLIENT)
+    user.groups.remove(lawyer_group)
+    user.groups.add(client_group)
     messages.warning(request, f'{user.get_full_name() or user.username} lawyer role has been revoked.')
     return redirect('managment:user_list')
 
@@ -63,7 +71,7 @@ def session_list(request):
     sessions = BookingSession.objects.select_related('customer', 'lawyer', 'time_slot').order_by('-created_at')
     if status_filter:
         sessions = sessions.filter(status=status_filter)
-    lawyers = User.objects.filter(lawyer_profile__isnull=False)
+    lawyers = User.objects.filter(groups__name=GROUP_LAWYER)
     return render(request, 'managment/session_list.html', {
         'sessions': sessions,
         'status_filter': status_filter,
@@ -80,7 +88,7 @@ def session_detail(request, pk):
                               .prefetch_related('messages__sender'),
         pk=pk,
     )
-    lawyers = User.objects.filter(lawyer_profile__isnull=False)
+    lawyers = User.objects.filter(groups__name=GROUP_LAWYER)
     return render(request, 'managment/session_detail.html', {
         'session': session,
         'lawyers': lawyers,
@@ -109,7 +117,7 @@ def reassign_session(request, pk):
         return redirect('managment:session_list')
     session = get_object_or_404(BookingSession, pk=pk)
     new_lawyer_pk = request.POST.get('lawyer_id')
-    new_lawyer = get_object_or_404(User, pk=new_lawyer_pk, lawyer_profile__isnull=False)
+    new_lawyer = get_object_or_404(User, pk=new_lawyer_pk, groups__name=GROUP_LAWYER)
     session.lawyer = new_lawyer
     session.status = 'rescheduled'
     session.save()

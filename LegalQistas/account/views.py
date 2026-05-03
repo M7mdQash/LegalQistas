@@ -1,8 +1,9 @@
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
 from .forms import SignUpForm
-from .models import UserProfile
+from .models import UserProfile, GROUP_CLIENT
 
 
 def sign_up(request):
@@ -18,6 +19,8 @@ def sign_up(request):
                 user.save()
                 profile_image = form.cleaned_data.get('profile_image')
                 UserProfile.objects.create(user=user, profile_image=profile_image)
+                client_group, _ = Group.objects.get_or_create(name=GROUP_CLIENT)
+                user.groups.add(client_group)
                 return redirect('main:home_view')
             except IntegrityError:
                 form.add_error('email', 'A user with that email already exists.')
