@@ -20,7 +20,7 @@
       {% for post in posts %}
       <tr>
         <td>{{ post.title }}</td>
-        <td class="small text-muted">{{ post.author.get_full_name|default:post.author.username }}</td>
+        <td class="small text-muted">{{ post.author.get_full_name|default:post.user.username }}</td>
         <td>
           {% if post.is_published %}
             <span class="badge bg-success">Published</span>
@@ -29,7 +29,12 @@
           {% endif %}
         </td>
         <td class="small text-muted">{{ post.created_at|date:"d M Y" }}</td>
-        <td class="text-end">
+        <td class="text-end d-flex justify-content-end gap-4">
+          
+          <!-- see details -->
+          <a href="{% url 'posts:post_detail_view' post.slug %}" class="btn btn-sm btn-outline-primary">
+            View
+          </a>
           <!-- Toggle publish -->
           <form method="post" action="{% url 'managment:toggle_publish' post.pk %}" class="d-inline">
             {% csrf_token %}

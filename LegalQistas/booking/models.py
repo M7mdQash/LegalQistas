@@ -50,7 +50,9 @@ class Message(models.Model):
         ordering = ['sent_at']
 
     def __str__(self):
-        return f'Message from {self.sender.get_full_name()} in session #{self.session_id}'
+        #TODO:  make sure that the session passes its real id 
+        return f'Message from {self.sender.get_full_name()} in session #{self.session.pk}'
+
 
 
 class ContactRequest(models.Model):

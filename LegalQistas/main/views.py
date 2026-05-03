@@ -6,6 +6,7 @@ def home_view(request:HttpRequest):
 
     return render(request, 'main/home.html')
 
+
 def services_view(request:HttpRequest):
 
     return render(request, 'main/services.html')
