@@ -32,9 +32,13 @@
         <td class="text-end d-flex justify-content-end gap-4">
           
           <!-- see details -->
+          {% if post.slug %}
           <a href="{% url 'posts:post_detail_view' post.slug %}" class="btn btn-sm btn-outline-primary">
             View
           </a>
+          {% else %}
+          <span class="btn btn-sm btn-outline-secondary disabled">No slug</span>
+          {% endif %}
           <!-- Toggle publish -->
           <form method="post" action="{% url 'managment:toggle_publish' post.pk %}" class="d-inline">
             {% csrf_token %}
