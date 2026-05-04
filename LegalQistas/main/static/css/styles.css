@@ -1,0 +1,156 @@
+/* ===== Dark Mode Base ===== */
+.dark{
+    background-color: #000827 !important;
+    color: #ffffff !important;
+}
+
+/* Navbar */
+.dark .navbar {
+    background-color: #000827 !important;
+}
+
+/* النصوص */
+.dark .nav-link,
+.dark .navbar-brand {
+    color: #ffffff !important;
+}
+
+/* الكروت */
+.dark .card {
+    background-color: #000827 !important;
+    color: white !important;
+    border: none;
+}
+
+/* الخلفيات البيضاء */
+.dark .bg-white {
+    background-color: #000827 !important;
+}
+
+/* الفوتر */
+.dark footer {
+    color: white;
+}
+
+.dark .text-body-secondary {
+    color: #aaa !important;
+}
+
+/* الفورمز */
+.dark .form-control,
+.dark .form-select {
+    background-color: #000827;
+    color: white;
+}
+
+/* الأزرار */
+.dark .btn-outline-dark {
+    color: white;
+}
+
+.dark .btn-primary {
+    background-color: #000827;
+}
+
+/* عند فتح القائمة */
+@media (max-width: 992px) {
+
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 100%;
+
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 15px;
+        padding: 15px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Dark mode */
+    .dark .navbar-collapse {
+        background: rgba(30, 30, 30);
+    }
+
+}
+
+.dark .navbar-toggler-icon{
+    color: #ffffff;
+}
+
+
+.navbar {
+    position: sticky;
+    top: 10px;
+    z-index: 999;
+}   
+
+.navbar {
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.8) !important;
+}
+
+.dark .navbar {
+    background: rgb(0, 8, 39,0.8) !important;
+}
+
+.dark p, li{
+    color: #ffffff !important;
+}
+
+.badge{
+    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
+}
+
+.dark .badge {
+    background: #ffffff;
+    color: #000827;
+}
+
+.btn-dark{
+    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
+
+}
+.btn-dark:hover{
+    background: white;
+    color: #000827;
+}
+
+.dark .btn-dark{
+    background: #ffffff;
+    color: #000827;
+}
+
+.dark .btn-dark:hover{
+    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
+    color: #ffffff;
+}
+
+
+.btn-outline-dark{
+    border-color: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
+
+}
+.btn-outline-dark:hover{
+    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
+    color: #ffffff;
+}
+
+.dark .btn-outline-dark{
+    background: #000827;
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+.dark .btn-outline-dark:hover{
+    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
+    color: #ffffff;
+}
+
