@@ -1,8 +1,10 @@
 from django.shortcuts import redirect, render
 from django.http import HttpRequest, HttpResponse
+from django.contrib.auth.models import User
 # Create your views here.
 
 def home_view(request:HttpRequest):
+    users = User.objects.all()[:3]
 
     return render(request, 'main/home.html')
 
