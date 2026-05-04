@@ -1,156 +1,363 @@
-/* ===== Dark Mode Base ===== */
-.dark{
-    background-color: #000827 !important;
-    color: #ffffff !important;
+/* ===============================
+   🎨 VARIABLES (هوية الموقع)
+================================ */
+:root {
+    --primary: linear-gradient(120deg, #14002a, #0064a7);
+    --dark-bg: #000827;
+    --light-bg: #f8fafc;
+    --text-dark: #0f172a;
+    --text-light: #ffffff;
+    --muted-light: #64748b;
+    --muted-dark: rgba(255,255,255,0.7);
 }
 
-/* Navbar */
-.dark .navbar {
-    background-color: #000827 !important;
+/* ===============================
+   🌞 LIGHT MODE
+================================ */
+body {
+    background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+    color: var(--text-dark);
+    transition: 0.3s;
 }
 
-/* النصوص */
-.dark .nav-link,
-.dark .navbar-brand {
-    color: #ffffff !important;
+/* ===============================
+   🌙 DARK MODE
+================================ */
+.dark body {
+    background: linear-gradient(135deg, #030029, #00497A);
+    color: var(--text-light);
 }
 
-/* الكروت */
-.dark .card {
-    background-color: #000827 !important;
-    color: white !important;
+/* ===============================
+   🧊 GLASS EFFECT
+================================ */
+.bg-glass {
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    transition: 0.3s;
+}
+
+.dark .bg-glass {
+    background: rgba(255,255,255,0.08);
+}
+
+/* ===============================
+   📦 CARDS
+================================ */
+.card {
     border: none;
+    border-radius: 16px;
+    transition: 0.3s;
+    background: white;
+    color: var(--text-dark);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
 }
 
-/* الخلفيات البيضاء */
-.dark .bg-white {
-    background-color: #000827 !important;
+.card:hover {
+    transform: translateY(-8px) scale(1.01);
 }
 
-/* الفوتر */
-.dark footer {
+.dark .card {
+    background: rgba(255,255,255,0.08);
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+/* ===============================
+   🔤 TEXT
+================================ */
+.text-muted {
+    color: var(--muted-light) !important;
+}
+
+.dark .text-muted {
+    color: var(--muted-dark) !important;
+}
+
+/* ===============================
+   🏷️ BADGE
+================================ */
+.badge {
+    background: var(--primary);
     color: white;
 }
 
-.dark .text-body-secondary {
-    color: #aaa !important;
+.dark .badge {
+    background: white;
+    color: #000827;
 }
 
-/* الفورمز */
-.dark .form-control,
-.dark .form-select {
-    background-color: #000827;
+/* ===============================
+   🔘 BUTTONS
+================================ */
+.btn-dark {
+    background: var(--primary);
+    border: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.btn-dark:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+.dark .btn-dark {
+    background: white;
+    color: #000827;
+}
+
+.dark .btn-dark:hover {
+    background: var(--primary);
     color: white;
 }
 
-/* الأزرار */
+/* outline button */
+.btn-outline-dark {
+    border: 2px solid #0f172a;
+    color: #0f172a;
+    transition: 0.3s;
+}
+
+.btn-outline-dark:hover {
+    background: var(--primary);
+    color: white;
+    border-color: transparent;
+}
+
 .dark .btn-outline-dark {
+    border-color: white;
     color: white;
 }
 
-.dark .btn-primary {
-    background-color: #000827;
+.dark .btn-outline-dark:hover {
+    background: var(--primary);
 }
 
-/* عند فتح القائمة */
-@media (max-width: 992px) {
+/* ===============================
+   🧭 NAVBAR
+================================ */
+.navbar {
+    position: sticky;
+    top: 10px;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.7);
+    border-radius: 16px;
+    transition: 0.3s;
+}
 
+.dark .navbar {
+    background: rgba(0,8,39,0.8);
+}
+
+.nav-link,
+.navbar-brand {
+    transition: 0.3s;
+}
+
+.nav-link:hover {
+    color: #0064a7 !important;
+}
+
+.dark .nav-link:hover {
+    color: #ffffff !important;
+}
+
+/* ===============================
+   📱 MOBILE MENU
+================================ */
+@media (max-width: 992px) {
     .navbar-collapse {
         position: absolute;
         top: 100%;
         right: 0;
         width: 100%;
-
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-
-        background: rgba(255, 255, 255, 0.7);
-        border-radius: 15px;
+        backdrop-filter: blur(12px);
+        background: rgba(255,255,255,0.9);
+        border-radius: 16px;
         padding: 15px;
         margin-top: 10px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
+        text-align: center;
     }
 
-    /* Dark mode */
     .dark .navbar-collapse {
-        background: rgba(30, 30, 30);
+        background: rgba(0, 8, 39, 0.95);
     }
-
 }
 
-.dark .navbar-toggler-icon{
+/* ===============================
+   🖼️ IMAGES
+================================ */
+img {
+    border-radius: 16px;
+    transition: 0.3s;
+}
+
+img:hover {
+    transform: scale(1.03);
+}
+
+/* ===============================
+   📊 STATS BOX
+================================ */
+.stat-box {
+    padding: 20px;
+    border-radius: 16px;
+    transition: 0.3s;
+    background: rgba(255,255,255,0.6);
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+}
+
+.dark .stat-box {
+    background: rgba(255,255,255,0.05);
+}
+
+/* ===============================
+   🧾 FORMS
+================================ */
+.form-control,
+.form-select {
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.dark .form-control,
+.dark .form-select {
+    background: rgba(255,255,255,0.05);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* ===============================
+   ✨ ANIMATIONS
+================================ */
+* {
+    transition: all 0.3s ease;
+}
+
+/* ===============================
+   🌙 DARK MODE COMPLETE
+================================ */
+
+/* Body */
+body.dark {
+    background: linear-gradient(135deg, #030029, #00497A);
+    color: var(--text-light);
+}
+
+/* Navbar text */
+.dark .nav-link,
+.dark .navbar-brand {
+    color: white !important;
+}
+
+/* Links */
+.dark a {
     color: #ffffff;
 }
 
-
-.navbar {
-    position: sticky;
-    top: 10px;
-    z-index: 999;
-}   
-
-.navbar {
-    backdrop-filter: blur(8px);
-    background: rgba(255,255,255,0.8) !important;
+/* Footer */
+.dark footer {
+    color: white;
 }
 
-.dark .navbar {
-    background: rgb(0, 8, 39,0.8) !important;
+.dark footer a {
+    color: #bbb;
 }
 
-.dark p, li{
-    color: #ffffff !important;
+/* Buttons general fix */
+.dark .btn {
+    transition: 0.3s;
 }
 
-.badge{
-    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
+/* Cards hover glow */
+.dark .card:hover {
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6);
 }
 
-.dark .badge {
-    background: #ffffff;
-    color: #000827;
+/* Glass effect stronger */
+.dark .bg-glass {
+    backdrop-filter: blur(15px);
 }
 
-.btn-dark{
-    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
-
-}
-.btn-dark:hover{
-    background: white;
-    color: #000827;
+/* Navbar collapse animation */
+.navbar-collapse {
+    transition: all 0.4s ease;
 }
 
-.dark .btn-dark{
-    background: #ffffff;
-    color: #000827;
+/* Mobile menu animation */
+@media (max-width: 992px) {
+    .navbar-collapse.show {
+        animation: slideDown 0.3s ease;
+    }
 }
 
-.dark .btn-dark:hover{
-    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
-    color: #ffffff;
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-
-.btn-outline-dark{
-    border-color: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
-
-}
-.btn-outline-dark:hover{
-    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
-    color: #ffffff;
+/* Smooth hover for links */
+.nav-link {
+    position: relative;
 }
 
-.dark .btn-outline-dark{
-    background: #000827;
-    color: #ffffff;
-    border-color: #ffffff;
+.nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    right: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--primary);
+    transition: 0.3s;
 }
 
-.dark .btn-outline-dark:hover{
-    background: linear-gradient(120deg, #14002a 0%, #0064a7 100%);
-    color: #ffffff;
+.nav-link:hover::after {
+    width: 100%;
 }
 
+/* Scrollbar (احترافي 👀) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+body.dark ::-webkit-scrollbar-thumb {
+    background: #444;
+}
+
+/* Selection */
+::selection {
+    background: #0064a7;
+    color: white;
+}
+
+/* placeholder في الوضع الداكن */
+.dark ::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* دعم المتصفحات القديمة */
+.dark :-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.dark ::-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
