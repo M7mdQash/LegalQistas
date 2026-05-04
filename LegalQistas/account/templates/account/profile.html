@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ profile_user.get_full_name }} - محامي{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <div class="row g-4">
+
+        <!-- Sidebar -->
+        <div class="col-lg-3 col-md-4">
+            <div class="card shadow-sm border-0 text-center p-4">
+
+                {% if lawyer_profile.avatar %}
+                    <img src="{{ lawyer_profile.avatar.url }}" alt="{{ profile_user.get_full_name }}"
+                         class="rounded-circle mx-auto d-block mb-3"
+                         style="width:130px;height:130px;object-fit:cover;">
+                {% elif user_profile.profile_image %}
+                    <img src="{{ user_profile.profile_image.url }}" alt="{{ profile_user.get_full_name }}"
+                         class="rounded-circle mx-auto d-block mb-3"
+                         style="width:130px;height:130px;object-fit:cover;">
+                {% else %}
+                    <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3 bg-secondary text-white"
+                         style="width:130px;height:130px;font-size:3rem;">
+                        <span class="material-symbols-outlined" style="font-size:4rem;">person</span>
+                    </div>
+                {% endif %}
+
+                <h4 class="mb-1">{{ profile_user.get_full_name }}</h4>
+                <span class="badge bg-success rounded-pill mb-3">محامي</span>
+
+                {% if request.user.pk == profile_user.pk %}
+                <a href="{% url 'account:profile_edit' pk=profile_user.pk %}"
+                   class="btn btn-outline-primary btn-sm rounded-pill w-100">
+                    <span class="material-symbols-outlined align-middle" style="font-size:1rem;">edit</span>
+                    تعديل الملف الشخصي
+                </a>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="col-lg-9 col-md-8">
+
+            <!-- About -->
+            <div class="card shadow-sm border-0 mb-4 p-4">
+                <h5 class="mb-3 border-bottom pb-2">
+                    <span class="material-symbols-outlined align-middle">info</span>
+                    نبذة عني
+                </h5>
+                {% if lawyer_profile.about_me %}
+                    <p class="text-body-secondary" style="white-space:pre-line;">{{ lawyer_profile.about_me }}</p>
+                {% else %}
+                    <p class="text-muted fst-italic">لم يتم إضافة نبذة شخصية بعد.</p>
+                {% endif %}
+            </div>
+
+            <!-- Certificates -->
+            {% if lawyer_profile.certificates %}
+            <div class="card shadow-sm border-0 mb-4 p-4">
+                <h5 class="mb-3 border-bottom pb-2">
+                    <span class="material-symbols-outlined align-middle">workspace_premium</span>
+                    الشهادات والمؤهلات
+                </h5>
+                <img src="{{ lawyer_profile.certificates.url }}" alt="شهادات"
+                     class="img-fluid rounded" style="max-height:400px;object-fit:contain;">
+            </div>
+            {% endif %}
+
+            <!-- Resume -->
+            {% if lawyer_profile.resume %}
+            <div class="card shadow-sm border-0 p-4">
+                <h5 class="mb-3 border-bottom pb-2">
+                    <span class="material-symbols-outlined align-middle">description</span>
+                    السيرة الذاتية
+                </h5>
+                <a href="{{ lawyer_profile.resume.url }}" target="_blank"
+                   class="btn btn-outline-success rounded-pill">
+                    <span class="material-symbols-outlined align-middle" style="font-size:1rem;">download</span>
+                    تحميل السيرة الذاتية
+                </a>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

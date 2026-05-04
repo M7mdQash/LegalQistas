@@ -53,7 +53,7 @@
             <button type="submit" class="btn btn-outline-success rounded-pill">الإدارة</button>
             </a>
             {% elif user.is_authenticated and user|is_lawyer %}
-            <a href="#">
+            <a href="{% url 'account:profile_view' user.pk %}">
             <button type="submit" class="btn btn-outline-success rounded-pill">صفحتك</button>
             </a>
             {% else %}

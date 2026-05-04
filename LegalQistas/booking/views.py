@@ -104,3 +104,4 @@ def contact_form(request):
 
 def contact_success(request):
     return render(request, 'booking/contact_success.html')
+

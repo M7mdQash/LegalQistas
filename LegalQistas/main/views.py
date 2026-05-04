@@ -34,6 +34,6 @@ def mode_view(request, mode):
     response = redirect(next_url)
     response.set_cookie("mode", mode)
 
-    return 
+    return response
     
     
