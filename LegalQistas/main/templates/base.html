@@ -1,4 +1,4 @@
-{% load static %}
+{% load static managment_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +35,7 @@
                 <a class="nav-link" href="{% url 'main:about_view' %}">من نحن</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'main:contact_view' %}">تواصل معنا</a>
+                <a class="nav-link" href="{% url 'booking:contact_form' %}">تواصل معنا</a>
             </li>
             </ul>
             
@@ -47,10 +47,32 @@
                 {% else %}
                     <span class="material-symbols-outlined">dark_mode</span>
                 {% endif %}
+        <div class="d-flex me-3 ms-3 gap-2">
+            {% if user.is_authenticated and user|is_manager %}
+            <a href="{% url 'managment:dashboard' %}">
+            <button type="submit" class="btn btn-outline-success rounded-pill">الإدارة</button>
             </a>
+            {% elif user.is_authenticated and user|is_lawyer %}
+            <a href="#">
+            <button type="submit" class="btn btn-outline-success rounded-pill">صفحتك</button>
+            </a>
+            {% else %}
+            <a href="{% url 'booking:book_session'%}">
+            <button type="submit" class="btn btn-outline-success rounded-pill">أحجز استشارتك</button>
+            </a>
+            {% endif %}
+            
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'account:sign_out' %}">
+            <button type="submit" class="btn btn-outline-danger rounded-pill">سجل الخروج</button>
+            </a>
+            {% else %}
+            
             <a href="{% url 'account:sign_in' %}">
-            <button type="submit" class="btn btn-primary rounded-pill" >Sign In</button>
+            <button type="submit" class="btn btn-primary rounded-pill" >سجل الدخول</button>
             </a>
+            {%endif%}
         </div>
         </nav>
     
