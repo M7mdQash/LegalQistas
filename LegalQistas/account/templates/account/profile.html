@@ -36,6 +36,22 @@
                     <span class="material-symbols-outlined align-middle" style="font-size:1rem;">edit</span>
                     تعديل الملف الشخصي
                 </a>
+                <!-- adding posts and changing schedule -->
+                <a href = {% url 'booking:lawyer_schedule'  %} class="btn btn-outline-secondary btn-sm rounded-pill w-100 mt-2">
+                    <span class="material-symbols-outlined align-middle" style="font-size:1rem;">schedule</span>
+                    تعديل جدول المواعيد
+                </a>
+                <!-- manage booked session via booking app-->
+                <a href = {% url 'booking:session_list'  %} class="btn btn-outline-secondary btn-sm rounded-pill w-100 mt-2">
+                    <span class="material-symbols-outlined align-middle" style="font-size:1rem;">manage_accounts</span>
+                    إدارة الجلسات
+                </a>
+
+                <a href = {% url 'posts:create_post_view' %} class="btn btn-outline-secondary btn-sm rounded-pill w-100 mt-2">
+                    <span class="material-symbols-outlined align-middle" style="font-size:1rem;">post_add</span>
+                    إضافة مقال جديد
+                </a>
+
                 {% endif %}
 
             </div>
