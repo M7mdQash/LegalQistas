@@ -33,7 +33,7 @@
         <ul class="navbar-nav mx-auto text-center">
             <li class="nav-item"><a class="nav-link" href="{% url 'main:home_view' %}">الرئيسية</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'main:services_view' %}">خدماتنا</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'main:lawyers_view' %}">المحامين</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'main:lawyers_view' %}">المحامون</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'posts:posts_view' %}">المقالات</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'main:about_view' %}">من نحن</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'booking:contact_form' %}">تواصل معنا</a></li>
@@ -86,77 +86,19 @@
 </main>
 
 
-    <div class="container p-3"> 
-        <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top"> 
-            <div class="col mb-3"> 
-                <a class="navbar-brand p-3" href="#">Qistas</a> 
-                <p class="text-body-secondary">© 2026</p> 
-            </div> 
-            <div class="col mb-3">
+    <footer class="py-4 border-top text-center">
+        <div class="container">
+            <ul class="nav justify-content-center mb-3">
+                <li class="nav-item"><a href="{% url 'main:home_view' %}" class="nav-link px-3 text-body-secondary">الرئيسية</a></li>
+                <li class="nav-item"><a href="{% url 'main:services_view' %}" class="nav-link px-3 text-body-secondary">الخدمات</a></li>
+                <li class="nav-item"><a href="{% url 'main:lawyers_view' %}" class="nav-link px-3 text-body-secondary">المحامون</a></li>
+                <li class="nav-item"><a href="{% url 'posts:posts_view' %}" class="nav-link px-3 text-body-secondary">المقالات</a></li>
+                <li class="nav-item"><a href="{% url 'main:about_view' %}" class="nav-link px-3 text-body-secondary">من نحن</a></li>
+            </ul>
 
-            </div> 
-            <div class="col mb-3"> 
-                <h5>Quick links</h5> 
-                <ul class="nav flex-column"> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Home</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Services</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Lawyers</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">ِArticles</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">FAQs</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">About Us</a> 
-                    </li> 
-                </ul> 
-            </div> 
-            <div class="col mb-3"> 
-                <h5>Our services</h5> 
-                <ul class="nav flex-column"> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Criminal cases</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Commercial issues</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Personal Status</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Legal advice</a> 
-                    </li> 
-                </ul> 
-            </div> 
-            <div class="col mb-3"> 
-                <h5>Contact us</h5> 
-                <ul class="nav flex-column"> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Home</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Features</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">Pricing</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">FAQs</a> 
-                    </li> 
-                    <li class="nav-item mb-2"> 
-                        <a href="#" class="nav-link p-0 text-body-secondary">About</a> 
-                    </li> 
-                </ul> 
-            </div> 
-        </footer> 
-    </div>
+            <p class=" mb-0">© 2026 قِسطَاس.</p>
+        </div>
+    </footer>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
