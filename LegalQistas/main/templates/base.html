@@ -55,8 +55,9 @@
                 <a href="{% url 'managment:dashboard' %}" class="btn btn-outline-success rounded-pill">الإدارة</a>
 
             {% elif user.is_authenticated and user|is_lawyer %}
-                <a href="#" class="btn btn-outline-success rounded-pill">صفحتك</a>
-
+            <a href="{% url 'account:profile_view' user.pk %}">
+            <button type="submit" class="btn btn-outline-success rounded-pill">صفحتك</button>
+            </a>
             {% else %}
                 <a href="{% url 'booking:book_session' %}" class="btn btn-outline-success rounded-pill">
                     احجز استشارتك

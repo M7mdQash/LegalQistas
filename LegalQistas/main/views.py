@@ -13,7 +13,7 @@ def services_view(request:HttpRequest):
 
 def lawyers_view(request:HttpRequest):
 
-    return render(request, 'main/lawyers.html')
+    return render(request, 'main/Lawyers.html')
 
 def about_view(request:HttpRequest):
 
@@ -35,4 +35,5 @@ def mode_view(request, mode):
     response.set_cookie("mode", mode)
 
     return response
+    
     

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}تعديل الملف الشخصي - {{ profile_user.get_full_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-9">
+
+            <div class="card shadow-sm border-0 p-4">
+                <div class="d-flex align-items-center gap-2 mb-4 border-bottom pb-3">
+                    <span class="material-symbols-outlined">manage_accounts</span>
+                    <h4 class="mb-0">تعديل الملف الشخصي</h4>
+                </div>
+
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Avatar -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">الصورة الشخصية</label>
+                        {% if form.avatar.value %}
+                        <div class="mb-2">
+                            <img src="/media/{{ form.avatar.value }}" alt="الصورة الحالية"
+                                 class="rounded-circle" style="width:80px;height:80px;object-fit:cover;">
+                            <small class="text-muted d-block mt-1">الصورة الحالية — ارفع صورة جديدة للاستبدال</small>
+                        </div>
+                        {% endif %}
+                        {{ form.avatar }}
+                        {% if form.avatar.errors %}
+                        <div class="text-danger small mt-1">{{ form.avatar.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- About me -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold" for="{{ form.about_me.id_for_label }}">نبذة عني</label>
+                        <textarea name="{{ form.about_me.html_name }}"
+                                  id="{{ form.about_me.id_for_label }}"
+                                  rows="5"
+                                  class="form-control{% if form.about_me.errors %} is-invalid{% endif %}"
+                                  placeholder="اكتب نبذة مختصرة عن خبراتك وتخصصاتك القانونية...">{{ form.about_me.value|default:'' }}</textarea>
+                        {% if form.about_me.errors %}
+                        <div class="invalid-feedback">{{ form.about_me.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Certificates -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">صورة الشهادات والمؤهلات</label>
+                        {% if form.certificates.value %}
+                        <div class="mb-2">
+                            <img src="/media/{{ form.certificates.value }}" alt="الشهادات الحالية"
+                                 class="img-fluid rounded" style="max-height:120px;object-fit:contain;">
+                            <small class="text-muted d-block mt-1">الشهادة الحالية — ارفع صورة جديدة للاستبدال</small>
+                        </div>
+                        {% endif %}
+                        {{ form.certificates }}
+                        {% if form.certificates.errors %}
+                        <div class="text-danger small mt-1">{{ form.certificates.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Resume -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">السيرة الذاتية (PDF أو Word)</label>
+                        {% if form.resume.value %}
+                        <div class="mb-2">
+                            <a href="/media/{{ form.resume.value }}" target="_blank" class="btn btn-outline-secondary btn-sm rounded-pill">
+                                <span class="material-symbols-outlined align-middle" style="font-size:1rem;">description</span>
+                                عرض الملف الحالي
+                            </a>
+                            <small class="text-muted d-block mt-1">ارفع ملفًا جديدًا للاستبدال</small>
+                        </div>
+                        {% endif %}
+                        {{ form.resume }}
+                        {% if form.resume.errors %}
+                        <div class="text-danger small mt-1">{{ form.resume.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a href="{% url 'account:profile_view' pk=profile_user.pk %}"
+                           class="btn btn-outline-secondary rounded-pill">إلغاء</a>
+                        <button type="submit" class="btn btn-success rounded-pill">
+                            <span class="material-symbols-outlined align-middle" style="font-size:1rem;">save</span>
+                            حفظ التغييرات
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
