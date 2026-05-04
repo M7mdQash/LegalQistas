@@ -9,7 +9,7 @@
         <div class="row align-items-center g-5">
 
             <div class="col-lg-6 text-center text-lg-end">
-                <span class="badge bg-dark mb-3 px-3 py-2">مكتب محاماة واستشارات قانونية</span>
+                <span class="badge mb-3 px-3 py-2">مكتب محاماة واستشارات قانونية</span>
 
                 <h1 class="display-4 fw-bold mb-4">
                     خبرة قانونية لحماية حقوقك
@@ -20,11 +20,11 @@
                 </p>
 
                 <div class="d-flex gap-3 justify-content-center justify-content-lg-end flex-wrap">
-                    <a href="#contact" class="btn btn-dark btn-lg px-5">
+                    <a href="{% url 'booking:book_session' %}" class="btn btn-dark btn-lg px-5">
                         احجز استشارة
                     </a>
 
-                    <a href="#services" class="btn btn-outline-dark btn-lg px-5">
+                    <a href="{% url 'main:services_view' %}" class="btn btn-outline-dark btn-lg px-5">
                         خدماتنا
                     </a>
                 </div>
@@ -78,7 +78,7 @@
 
 
 <!-- Services -->
-<section id="services" class="py-5 bg-light">
+<section id="services" class="py-5">
     <div class="container">
 
         <div class="text-center mb-5">
@@ -158,7 +158,7 @@
 
 
 <!-- Team -->
-<section class="py-5 bg-light">
+<section class="py-5">
     <div class="container">
 
         <div class="text-center mb-5">
@@ -199,16 +199,16 @@
 
 
 <!-- Contact CTA -->
-<section id="contact" class="py-5 bg-dark text-white">
+<section id="contact" class="py-5">
     <div class="container text-center">
 
         <h2 class="fw-bold mb-4">ابدأ استشارتك القانونية اليوم</h2>
 
-        <p class="mb-4 text-light">
+        <p class="mb-4 text-muted">
             فريقنا جاهز لمساعدتك والإجابة على استفساراتك القانونية.
         </p>
 
-        <a href="#" class="btn btn-light btn-lg px-5">
+        <a href="{% url 'booking:contact_form' %}" class="btn btn-dark btn-lg px-5">
             تواصل معنا
         </a>
 
