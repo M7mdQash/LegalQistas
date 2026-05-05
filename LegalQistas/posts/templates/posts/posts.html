@@ -4,7 +4,14 @@
 
 <div class="container py-5">
 
-    <h1 class="text-center mb-5">All Posts</h1>
+    <h1 class="text-center mb-5">المقالات</h1>
+    {% if request.user.is_authenticated and request.user.role == lawyer %}
+        <div class="text-end mb-3">
+            <a href="{% url 'posts:create_post_view' %}" class="btn btn-dark rounded-pill">
+                + إضافة بوست
+            </a>
+        </div>
+    {% endif %}
 
     <div class="row">
 
